@@ -1,4 +1,4 @@
-package tn.poste.client.entities;
+package tn.poste.client.data.entities;
 
 import java.time.LocalDateTime;
 
