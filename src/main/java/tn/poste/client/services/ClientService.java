@@ -36,5 +36,22 @@ public class ClientService {
 		client = clientRepos.save(client);
 		return "Client is Saved";
 	}
+	
+	public ClientDto updateClient(int id, ClientDto clientDto) {
+		Client client = clientRepos.findById(id).orElseThrow(()-> new ClientNotFoundException("Client with this id is not found to be updated"));
+		if(clientDto.getName() != null)
+			client.setName(clientDto.getName());
+		if(clientDto.getNumber() != null)
+			client.setNumber(clientDto.getNumber());
+		client = clientRepos.save(client);
+		return mapper.map(client, ClientDto.class);
+	}
+	
+	public ClientDto deleteClientById(int id) {
+		Client client = clientRepos.findById(id).orElseThrow(()-> new ClientNotFoundException("Client with this id is not found"));
+		clientRepos.delete(client);
+		return mapper.map(client, ClientDto.class);
+	}
+	
 
 }

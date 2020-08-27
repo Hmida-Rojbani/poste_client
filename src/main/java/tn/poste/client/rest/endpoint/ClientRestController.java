@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ import tn.poste.client.services.ClientService;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/clients")
+@RequestMapping("/api/clients")
 public class ClientRestController {
 	
 	private ClientService clientService;
@@ -39,10 +40,14 @@ public class ClientRestController {
 	}
 	
 	// a faire
-	@PutMapping("/update")
-	public String updateClient(@Valid @RequestBody ClientDto clientDto){
-		return null;
+	@PutMapping("/update/{id}")
+	public ClientDto updateClient(@PathVariable("id") int id, @Valid @RequestBody ClientDto clientDto){
+		return clientService.updateClient(id, clientDto);
 	}
 	
+	@DeleteMapping("/delete/{id}")
+	public ClientDto deleteClient(@PathVariable("id") int id){
+		return clientService.deleteClientById(id);
+	}
 
 }
