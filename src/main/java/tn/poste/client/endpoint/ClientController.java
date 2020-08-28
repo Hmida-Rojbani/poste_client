@@ -1,5 +1,6 @@
 package tn.poste.client.endpoint;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,14 +15,25 @@ import tn.poste.client.services.ClientService;
 
 @Controller
 @RequestMapping("/clients")
-@AllArgsConstructor
+@AllArgsConstructor()
 public class ClientController {
 	
 	private ClientService clientService;
 	
+	@Value("${error.message}")
+	private static String errorMessage;
+
+	@GetMapping()
+	public String getAllProduct(Model model) {
+
+		model.addAttribute("listClients", clientService.getAllClient());
+
+		return "client/list_client";
+	};
 	
 	@GetMapping("/add")
 	public String getAddClient(Model model) {
+		
 		model.addAttribute("client", new ClientDto());
 		return "client/add_client";
 	}
@@ -33,12 +45,29 @@ public class ClientController {
 		return "client/get_client";
 	}
 	
-	
+	// add display all 
+	// add a template contain table all client
 	
 	@PostMapping("/add")
-	public String addClient(@ModelAttribute("client") ClientDto clientDto) {
-		clientService.saveClient(clientDto);
-		return "index";
+	public String addClient(@ModelAttribute("client") ClientDto clientDto, Model model) {
+		System.err.println(clientDto);
+		try {
+			if (clientDto.checkAllNotNull()) {
+				clientService.saveClient(clientDto);
+				return "redirect:/clients";
+			}
+		} catch (IllegalAccessException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+			return "client/add_client";
+		}
+		return "redirect:/clients/add";
+		
+	}
+	
+	@GetMapping("/delete/{id}")
+	public String deleteProduitById(@PathVariable int id) {
+		clientService.deleteClientById(id);
+		return "redirect:/clients";
 		
 	}
 

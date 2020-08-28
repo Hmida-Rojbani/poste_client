@@ -1,5 +1,7 @@
 package tn.poste.client.data.dto;
 
+import java.lang.reflect.Field;
+
 import javax.validation.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
@@ -16,4 +18,10 @@ public class ClientDto {
 	private String name;
 	private String number;
 
+	public boolean checkAllNotNull() throws IllegalAccessException {
+	    for (Field f : getClass().getDeclaredFields())
+	        if (!f.getName().equals("id") && ( f.get(this) == null || ((String)f.get(this)).isEmpty()))
+	            return false;
+	    return true;            
+	}
 }

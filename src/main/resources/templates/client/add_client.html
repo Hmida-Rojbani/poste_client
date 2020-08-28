@@ -17,6 +17,11 @@ Number : <input type="text" th:field="*{number}">
 </br>
 <input type="submit" value= "Add Client" > 
 </form>
-
+<!-- Check if errorMessage is not null and not empty -->
+       
+      <div th:if="${errorMessage}" th:utext="${errorMessage}"
+         style="color:red;font-style:italic;">
+         ...
+      </div>
 </body>
 </html>

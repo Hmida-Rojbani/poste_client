@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+      <meta charset="UTF-8" />
+      <title>Clients List</title>
+      <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+   </head>
+<body>
+
+<h1>Clients List</h1>
+<a href="clients/add">Add Client</a>
+
+<br />
+	<br />
+	<div>
+
+		<table border="1">
+			<thead>
+				<th>Id</th>
+				<th>Name</th>
+			</thead>
+			<tbody>
+				<tr th:each="client : ${listClients}">
+					<td th:text=" ${client.id}">Id</td>
+					<td th:text=" ${client.name}">Name</td>
+					<td>
+						<form th:action="@{/clients/delete/{id}(id=${client.id})}"
+							 method="get">
+							
+							<button type="submit" onClick="return confirm('sure?')" > Delete </button>
+						</form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+
+</body>
+</html>
