@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ClientDto {
 	
+	private long id;
 	@NotBlank(message ="Name must exist")
 	private String name;
 	private String number;
